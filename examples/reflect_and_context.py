@@ -1,6 +1,6 @@
 """Consolidate memory with reflect, then read it back as working context.
 
-The agent stores several related facts, runs a reflection pass so AgentMemory can
+The agent stores several related facts, runs a reflection pass so Agent Memory can
 merge them and infer relationships, and then pulls a working-context block for a
 task. This shows the difference between recall (ranked hits) and context (an
 assembled working set).

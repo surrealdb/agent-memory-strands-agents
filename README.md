@@ -1,8 +1,8 @@
 # agent-memory-strands-agents
 
-AgentMemory agent memory as tools for the [Strands Agents](https://strandsagents.com) SDK.
+Agent Memory as tools for the [Strands Agents](https://strandsagents.com) SDK.
 
-[AgentMemory](https://surrealdb.com/agent-memory) is SurrealDB's provenance-first, tri-temporal memory and knowledge layer for AI agents. This package exposes AgentMemory's memory operations as Strands tools, so any Strands agent can store and retrieve long-term memory with a single line of setup:
+[Agent Memory](https://surrealdb.com/agent-memory) is SurrealDB's provenance-first, tri-temporal memory and knowledge layer for AI agents. This package exposes Agent Memory's memory operations as Strands tools, so any Strands agent can store and retrieve long-term memory with a single line of setup:
 
 ```python
 from strands import Agent
@@ -28,10 +28,10 @@ Requires Python 3.10 or newer.
 
 ## Configuration
 
-The tools need a AgentMemory client. Provide the connection details as environment variables:
+The tools need an Agent Memory client. Provide the connection details as environment variables:
 
 ```bash
-export AGENT_MEMORY_ENDPOINT="https://api.agent_memory.example"
+export AGENT_MEMORY_ENDPOINT="https://api.agent-memory.example"
 export AGENT_MEMORY_API_KEY="your-bearer-token"
 export AGENT_MEMORY_CONTEXT="acme-prod"
 ```
@@ -44,7 +44,7 @@ from agent_memory_strands import agent_memory_tools
 
 # From explicit arguments.
 tools = agent_memory_tools(
-    endpoint="https://api.agent_memory.example",
+    endpoint="https://api.agent-memory.example",
     api_key="your-bearer-token",
     context="acme-prod",
 )
@@ -56,7 +56,7 @@ tools = agent_memory_tools(client=client)
 
 ## Tools
 
-`agent_memory_tools()` returns seven tools by default, one per AgentMemory operation:
+`agent_memory_tools()` returns seven tools by default, one per Agent Memory operation:
 
 | Tool | Purpose |
 | --- | --- |
@@ -80,7 +80,7 @@ tools = agent_memory_tools(exclude=["forget", "inspect"])
 
 ## Scopes
 
-AgentMemory scopes isolate memory by principal, tenant or session. A scope is a path
+Agent Memory scopes isolate memory by principal, tenant or session. A scope is a path
 string such as `"org/acme/user/alice"`, or a list of paths. Set a default scope for
 all tools, and let the agent override it per call when needed:
 
@@ -97,7 +97,7 @@ Each tool is a thin wrapper over one method on the synchronous `surrealdb.AgentM
 client. Because that client is synchronous, the tools call it directly. There is no
 background event loop or async shim to manage.
 
-AgentMemory is in early preview. The `remember`, `recall` and `context` tools follow the
+Agent Memory is in early preview. The `remember`, `recall` and `context` tools follow the
 documented client signatures. The `reflect`, `forget`, `upload` and `inspect` tools
 cover operations whose keyword arguments are still settling. If a method name or
 argument differs in the version of `surrealdb` you have installed, the fix is a single

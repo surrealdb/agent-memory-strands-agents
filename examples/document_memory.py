@@ -1,6 +1,6 @@
 """Ingest a document, then answer questions from it.
 
-The agent uploads a short policy document into AgentMemory and then recalls over it.
+The agent uploads a short policy document into Agent Memory and then recalls over it.
 Uploaded content becomes part of the same memory the agent searches at recall
 time, so no separate retrieval pipeline is needed.
 

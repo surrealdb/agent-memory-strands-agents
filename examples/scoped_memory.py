@@ -1,7 +1,7 @@
 """Per-user memory with scopes.
 
 A scope isolates one principal's memory from another's. Here two agents share a
-AgentMemory context but write and read under different scope paths, so a fact stored
+Agent Memory context but write and read under different scope paths, so a fact stored
 for Alice does not surface when acting for Bob.
 
 Prerequisites and setup match examples/quickstart.py.

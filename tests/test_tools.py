@@ -1,4 +1,4 @@
-"""Tests for the AgentMemory tool wrappers."""
+"""Tests for the Agent Memory tool wrappers."""
 
 from __future__ import annotations
 
@@ -98,7 +98,7 @@ def test_exclude_filters_selection(fake_client):
 
 
 def test_unknown_tool_name_raises(fake_client):
-    with pytest.raises(ValueError, match="Unknown AgentMemory tool"):
+    with pytest.raises(ValueError, match="Unknown Agent Memory tool"):
         agent_memory_tools(client=fake_client, include=["teleport"])
 
 

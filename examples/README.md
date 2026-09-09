@@ -11,10 +11,10 @@ Install the package with the Bedrock extra:
 pip install "agent-memory-strands-agents[bedrock]"
 ```
 
-Point the tools at your AgentMemory instance:
+Point the tools at your Agent Memory instance:
 
 ```bash
-export AGENT_MEMORY_ENDPOINT="https://api.agent_memory.example"
+export AGENT_MEMORY_ENDPOINT="https://api.agent-memory.example"
 export AGENT_MEMORY_API_KEY="your-bearer-token"
 export AGENT_MEMORY_CONTEXT="acme-prod"
 ```

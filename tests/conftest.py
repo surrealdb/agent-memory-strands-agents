@@ -1,8 +1,8 @@
 """Shared test fixtures.
 
-FakeAgentMemory stands in for the real ``surrealdb.AgentMemory`` client. It records
+FakeAgentMemory stands in for the real ``surrealdb.Agent Memory`` client. It records
 every call and returns canned responses, so the tools can be tested without a
-network connection or a configured AgentMemory endpoint.
+network connection or a configured Agent Memory endpoint.
 """
 
 from __future__ import annotations
@@ -34,7 +34,7 @@ class FakeAgentMemory:
                 return call
         raise AssertionError(f"{method} was never called")
 
-    # Methods mirroring the AgentMemory client surface used by the tools.
+    # Methods mirroring the Agent Memory client surface used by the tools.
     def remember(self, text: str, **kwargs: Any) -> None:
         self._record("remember", text, **kwargs)
 

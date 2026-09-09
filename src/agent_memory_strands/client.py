@@ -1,6 +1,6 @@
-"""Construction of the AgentMemory client used by the tools.
+"""Construction of the Agent Memory client used by the tools.
 
-The AgentMemory client lives in the ``surrealdb`` package, v3 alpha or later
+The Agent Memory client lives in the ``surrealdb`` package, v3 alpha or later
 (``pip install "surrealdb[memory]>=3.0.0b8"``).
 It is imported lazily so that importing ``agent_memory_strands`` never requires a
 configured environment, and so a missing dependency produces a clear message
@@ -26,20 +26,20 @@ def build_client(
     timeout: float = 30.0,
     max_retries: int = 3,
 ) -> Any:
-    """Build a synchronous AgentMemory client from arguments or the environment.
+    """Build a synchronous Agent Memory client from arguments or the environment.
 
     Any argument left as ``None`` falls back to its environment variable:
     ``AGENT_MEMORY_CONTEXT``, ``AGENT_MEMORY_ENDPOINT`` and ``AGENT_MEMORY_API_KEY``.
 
     Args:
-        context: AgentMemory context id, for example ``"acme-prod"``.
-        endpoint: AgentMemory host URL, for example ``"https://api.agent_memory.example"``.
+        context: Agent Memory context id, for example ``"acme-prod"``.
+        endpoint: Agent Memory host URL, for example ``"https://api.agent-memory.example"``.
         api_key: Bearer token used to authenticate requests.
         timeout: Per-request timeout in seconds.
         max_retries: Retry attempts for idempotent operations.
 
     Returns:
-        A ``surrealdb.AgentMemory`` instance.
+        A ``surrealdb.Agent Memory`` instance.
 
     Raises:
         ImportError: If the ``surrealdb`` package is not installed.
@@ -60,7 +60,7 @@ def build_client(
     ]
     if missing:
         raise ValueError(
-            "AgentMemory client configuration is incomplete. Provide it as arguments "
+            "Agent Memory client configuration is incomplete. Provide it as arguments "
             "to build_client / agent_memory_tools, or set these environment variables: "
             + ", ".join(missing)
         )
@@ -69,7 +69,7 @@ def build_client(
         from surrealdb.memory import Memory
     except ImportError as exc:  # pragma: no cover - exercised only without surrealdb
         raise ImportError(
-            "The 'surrealdb' package is required for the AgentMemory client. "
+            "The 'surrealdb' package is required for the Agent Memory client. "
             "The Agent Memory client ships as an extra; install it with: "
             'pip install "surrealdb[memory]>=3.0.0b8"'
         ) from exc

@@ -1,14 +1,14 @@
-"""AgentMemory memory operations exposed as Strands tools.
+"""Agent Memory operations exposed as Strands tools.
 
 ``agent_memory_tools()`` returns a list of Strands tools that an agent can call to
-store and retrieve memory in AgentMemory. Each tool wraps one method on the
-synchronous ``surrealdb.AgentMemory`` client. Because that client is synchronous,
+store and retrieve memory in Agent Memory. Each tool wraps one method on the
+synchronous ``surrealdb.Agent Memory`` client. Because that client is synchronous,
 the tools call it directly and do not need an event-loop shim.
 
 The wrappers are intentionally thin. ``remember``, ``recall`` and ``context``
-follow the documented AgentMemory client signatures. ``reflect``, ``forget``,
+follow the documented Agent Memory client signatures. ``reflect``, ``forget``,
 ``upload`` and ``inspect`` cover operations whose keyword arguments are still
-settling during AgentMemory's early preview; if a method name or argument differs
+settling during Agent Memory's early preview; if a method name or argument differs
 in the version of ``surrealdb`` you have installed, adjust the single call
 inside the matching factory below.
 """
@@ -48,7 +48,7 @@ def _make_remember(client: Any, default_scope: Scope) -> Any:
         scope: str | None = None,
         memory_category: str | None = None,
     ) -> str:
-        """Store a fact or observation in AgentMemory memory for later recall.
+        """Store a fact or observation in Agent Memory for later recall.
 
         Use this whenever the user shares information that should be remembered
         across turns or sessions, such as preferences, decisions or facts.
@@ -74,7 +74,7 @@ def _make_recall(client: Any, default_scope: Scope) -> Any:
         mode: str = "hybrid",
         scope: str | None = None,
     ) -> str:
-        """Search AgentMemory memory and return the most relevant stored information.
+        """Search Agent Memory and return the most relevant stored information.
 
         Use this before answering when the question may depend on something
         remembered earlier.
@@ -121,9 +121,9 @@ def _make_context(client: Any, default_scope: Scope) -> Any:
 def _make_reflect(client: Any, default_scope: Scope) -> Any:
     @tool
     def agent_memory_reflect(scope: str | None = None) -> str:
-        """Run a synthesis pass so AgentMemory consolidates and connects memories.
+        """Run a synthesis pass so Agent Memory consolidates and connects memories.
 
-        Use this after storing a batch of related facts to let AgentMemory infer
+        Use this after storing a batch of related facts to let Agent Memory infer
         relationships and merge fragmented knowledge.
 
         Args:
@@ -145,7 +145,7 @@ def _make_forget(client: Any, default_scope: Scope) -> Any:
         hard: bool = False,
         scope: str | None = None,
     ) -> str:
-        """Delete memories that match a query from AgentMemory.
+        """Delete memories that match a query from Agent Memory.
 
         Args:
             query: A natural language description of what to forget.
@@ -168,7 +168,7 @@ def _make_upload(client: Any, default_scope: Scope) -> Any:
         name: str | None = None,
         scope: str | None = None,
     ) -> str:
-        """Ingest a document into AgentMemory so its contents become recallable.
+        """Ingest a document into Agent Memory so its contents become recallable.
 
         Args:
             content: The document text to ingest.
@@ -190,7 +190,7 @@ def _make_inspect(client: Any, default_scope: Scope) -> Any:
         query: str | None = None,
         scope: str | None = None,
     ) -> str:
-        """Browse the AgentMemory substrate as queryable data for debugging or audit.
+        """Browse the Agent Memory substrate as queryable data for debugging or audit.
 
         Args:
             query: Optional filter describing what to inspect.
@@ -222,7 +222,7 @@ def _select(include: Iterable[str] | None, exclude: Iterable[str] | None) -> lis
     unknown = [name for name in names if name not in _FACTORIES]
     if unknown:
         raise ValueError(
-            f"Unknown AgentMemory tool name(s): {', '.join(unknown)}. "
+            f"Unknown Agent Memory tool name(s): {', '.join(unknown)}. "
             f"Valid names are: {', '.join(TOOL_NAMES)}."
         )
     if exclude:
@@ -239,10 +239,10 @@ def agent_memory_tools(
     exclude: Iterable[str] | None = None,
     **client_kwargs: Any,
 ) -> list[Any]:
-    """Build AgentMemory memory tools ready to hand to a Strands ``Agent``.
+    """Build Agent Memory tools ready to hand to a Strands ``Agent``.
 
     Args:
-        client: An existing ``surrealdb.AgentMemory`` client. When omitted, one is
+        client: An existing ``surrealdb.Agent Memory`` client. When omitted, one is
             built with ``build_client(**client_kwargs)`` from arguments or the
             environment.
         scope: A default scope (a path string or list of path strings) applied to
@@ -254,7 +254,7 @@ def agent_memory_tools(
             (context, endpoint, api_key, timeout, max_retries).
 
     Returns:
-        A list of Strands tools, one per selected AgentMemory operation.
+        A list of Strands tools, one per selected Agent Memory operation.
     """
     if client is None:
         client = build_client(**client_kwargs)

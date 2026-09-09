@@ -1,11 +1,11 @@
-"""Quickstart: give a Strands agent memory backed by AgentMemory.
+"""Quickstart: give a Strands agent memory backed by Agent Memory.
 
 The agent stores a fact in one turn and recalls it in the next.
 
 Prerequisites:
     pip install "agent-memory-strands-agents[bedrock]"
 
-    export AGENT_MEMORY_ENDPOINT="https://api.agent_memory.example"
+    export AGENT_MEMORY_ENDPOINT="https://api.agent-memory.example"
     export AGENT_MEMORY_API_KEY="your-bearer-token"
     export AGENT_MEMORY_CONTEXT="acme-prod"
 
