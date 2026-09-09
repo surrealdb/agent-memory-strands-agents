@@ -1,14 +1,14 @@
-"""Spectron memory operations exposed as Strands tools.
+"""AgentMemory memory operations exposed as Strands tools.
 
-``spectron_tools()`` returns a list of Strands tools that an agent can call to
-store and retrieve memory in Spectron. Each tool wraps one method on the
-synchronous ``surrealdb.Spectron`` client. Because that client is synchronous,
+``agent_memory_tools()`` returns a list of Strands tools that an agent can call to
+store and retrieve memory in AgentMemory. Each tool wraps one method on the
+synchronous ``surrealdb.AgentMemory`` client. Because that client is synchronous,
 the tools call it directly and do not need an event-loop shim.
 
 The wrappers are intentionally thin. ``remember``, ``recall`` and ``context``
-follow the documented Spectron client signatures. ``reflect``, ``forget``,
+follow the documented AgentMemory client signatures. ``reflect``, ``forget``,
 ``upload`` and ``inspect`` cover operations whose keyword arguments are still
-settling during Spectron's early preview; if a method name or argument differs
+settling during AgentMemory's early preview; if a method name or argument differs
 in the version of ``surrealdb`` you have installed, adjust the single call
 inside the matching factory below.
 """
@@ -43,12 +43,12 @@ def _with_scope(scope: Scope, **kwargs: Any) -> dict[str, Any]:
 
 def _make_remember(client: Any, default_scope: Scope) -> Any:
     @tool
-    def spectron_remember(
+    def agent_memory_remember(
         text: str,
         scope: str | None = None,
         memory_category: str | None = None,
     ) -> str:
-        """Store a fact or observation in Spectron memory for later recall.
+        """Store a fact or observation in AgentMemory memory for later recall.
 
         Use this whenever the user shares information that should be remembered
         across turns or sessions, such as preferences, decisions or facts.
@@ -63,18 +63,18 @@ def _make_remember(client: Any, default_scope: Scope) -> Any:
         client.remember(text, **_with_scope(resolved, memory_category=memory_category))
         return f"Remembered: {text}"
 
-    return spectron_remember
+    return agent_memory_remember
 
 
 def _make_recall(client: Any, default_scope: Scope) -> Any:
     @tool
-    def spectron_recall(
+    def agent_memory_recall(
         query: str,
         k: int = 10,
         mode: str = "hybrid",
         scope: str | None = None,
     ) -> str:
-        """Search Spectron memory and return the most relevant stored information.
+        """Search AgentMemory memory and return the most relevant stored information.
 
         Use this before answering when the question may depend on something
         remembered earlier.
@@ -90,12 +90,12 @@ def _make_recall(client: Any, default_scope: Scope) -> Any:
         response = client.recall(query, **_with_scope(resolved, k=k, mode=mode))
         return format_recall(response)
 
-    return spectron_recall
+    return agent_memory_recall
 
 
 def _make_context(client: Any, default_scope: Scope) -> Any:
     @tool
-    def spectron_context(
+    def agent_memory_context(
         query: str,
         k: int = 10,
         scope: str | None = None,
@@ -115,15 +115,15 @@ def _make_context(client: Any, default_scope: Scope) -> Any:
         block = client.query_context(query, **_with_scope(resolved, k=k))
         return format_context(block)
 
-    return spectron_context
+    return agent_memory_context
 
 
 def _make_reflect(client: Any, default_scope: Scope) -> Any:
     @tool
-    def spectron_reflect(scope: str | None = None) -> str:
-        """Run a synthesis pass so Spectron consolidates and connects memories.
+    def agent_memory_reflect(scope: str | None = None) -> str:
+        """Run a synthesis pass so AgentMemory consolidates and connects memories.
 
-        Use this after storing a batch of related facts to let Spectron infer
+        Use this after storing a batch of related facts to let AgentMemory infer
         relationships and merge fragmented knowledge.
 
         Args:
@@ -135,17 +135,17 @@ def _make_reflect(client: Any, default_scope: Scope) -> Any:
         result = client.reflect(**_with_scope(resolved))
         return summarize(result, "Reflection pass complete.")
 
-    return spectron_reflect
+    return agent_memory_reflect
 
 
 def _make_forget(client: Any, default_scope: Scope) -> Any:
     @tool
-    def spectron_forget(
+    def agent_memory_forget(
         query: str,
         hard: bool = False,
         scope: str | None = None,
     ) -> str:
-        """Delete memories that match a query from Spectron.
+        """Delete memories that match a query from AgentMemory.
 
         Args:
             query: A natural language description of what to forget.
@@ -158,17 +158,17 @@ def _make_forget(client: Any, default_scope: Scope) -> Any:
         result = client.forget(query, **_with_scope(resolved, hard=hard))
         return summarize(result, f"Forgot memories matching: {query}")
 
-    return spectron_forget
+    return agent_memory_forget
 
 
 def _make_upload(client: Any, default_scope: Scope) -> Any:
     @tool
-    def spectron_upload(
+    def agent_memory_upload(
         content: str,
         name: str | None = None,
         scope: str | None = None,
     ) -> str:
-        """Ingest a document into Spectron so its contents become recallable.
+        """Ingest a document into AgentMemory so its contents become recallable.
 
         Args:
             content: The document text to ingest.
@@ -181,16 +181,16 @@ def _make_upload(client: Any, default_scope: Scope) -> Any:
         result = client.upload(content, **_with_scope(resolved, name=name))
         return summarize(result, f"Uploaded document{f' {name!r}' if name else ''}.")
 
-    return spectron_upload
+    return agent_memory_upload
 
 
 def _make_inspect(client: Any, default_scope: Scope) -> Any:
     @tool
-    def spectron_inspect(
+    def agent_memory_inspect(
         query: str | None = None,
         scope: str | None = None,
     ) -> str:
-        """Browse the Spectron substrate as queryable data for debugging or audit.
+        """Browse the AgentMemory substrate as queryable data for debugging or audit.
 
         Args:
             query: Optional filter describing what to inspect.
@@ -202,7 +202,7 @@ def _make_inspect(client: Any, default_scope: Scope) -> Any:
         result = client.inspect(**_with_scope(resolved, query=query))
         return summarize(result, "No matching records.")
 
-    return spectron_inspect
+    return agent_memory_inspect
 
 
 _FACTORIES: dict[str, Callable[[Any, Scope], Any]] = {
@@ -222,7 +222,7 @@ def _select(include: Iterable[str] | None, exclude: Iterable[str] | None) -> lis
     unknown = [name for name in names if name not in _FACTORIES]
     if unknown:
         raise ValueError(
-            f"Unknown Spectron tool name(s): {', '.join(unknown)}. "
+            f"Unknown AgentMemory tool name(s): {', '.join(unknown)}. "
             f"Valid names are: {', '.join(TOOL_NAMES)}."
         )
     if exclude:
@@ -231,7 +231,7 @@ def _select(include: Iterable[str] | None, exclude: Iterable[str] | None) -> lis
     return names
 
 
-def spectron_tools(
+def agent_memory_tools(
     client: Any | None = None,
     *,
     scope: Scope = None,
@@ -239,10 +239,10 @@ def spectron_tools(
     exclude: Iterable[str] | None = None,
     **client_kwargs: Any,
 ) -> list[Any]:
-    """Build Spectron memory tools ready to hand to a Strands ``Agent``.
+    """Build AgentMemory memory tools ready to hand to a Strands ``Agent``.
 
     Args:
-        client: An existing ``surrealdb.Spectron`` client. When omitted, one is
+        client: An existing ``surrealdb.AgentMemory`` client. When omitted, one is
             built with ``build_client(**client_kwargs)`` from arguments or the
             environment.
         scope: A default scope (a path string or list of path strings) applied to
@@ -254,7 +254,7 @@ def spectron_tools(
             (context, endpoint, api_key, timeout, max_retries).
 
     Returns:
-        A list of Strands tools, one per selected Spectron operation.
+        A list of Strands tools, one per selected AgentMemory operation.
     """
     if client is None:
         client = build_client(**client_kwargs)

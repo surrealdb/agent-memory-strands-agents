@@ -1,8 +1,8 @@
 """Shared test fixtures.
 
-FakeSpectron stands in for the real ``surrealdb.Spectron`` client. It records
+FakeAgentMemory stands in for the real ``surrealdb.AgentMemory`` client. It records
 every call and returns canned responses, so the tools can be tested without a
-network connection or a configured Spectron endpoint.
+network connection or a configured AgentMemory endpoint.
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class Call:
 
 
 @dataclass
-class FakeSpectron:
+class FakeAgentMemory:
     calls: list[Call] = field(default_factory=list)
 
     def _record(self, method: str, *args: Any, **kwargs: Any) -> None:
@@ -34,7 +34,7 @@ class FakeSpectron:
                 return call
         raise AssertionError(f"{method} was never called")
 
-    # Methods mirroring the Spectron client surface used by the tools.
+    # Methods mirroring the AgentMemory client surface used by the tools.
     def remember(self, text: str, **kwargs: Any) -> None:
         self._record("remember", text, **kwargs)
 
@@ -69,5 +69,5 @@ class FakeSpectron:
 
 
 @pytest.fixture
-def fake_client() -> FakeSpectron:
-    return FakeSpectron()
+def fake_client() -> FakeAgentMemory:
+    return FakeAgentMemory()
