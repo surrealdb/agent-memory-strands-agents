@@ -11,22 +11,32 @@ import types
 
 import pytest
 
-from spectron_strands import build_client
-from spectron_strands.client import ENV_API_KEY, ENV_CONTEXT, ENV_ENDPOINT
+from agent_memory_strands import build_client
+from agent_memory_strands.client import ENV_API_KEY, ENV_CONTEXT, ENV_ENDPOINT
 
 
 @pytest.fixture
 def fake_surrealdb(monkeypatch):
-    """Install a fake 'surrealdb' module exposing a recording Spectron class."""
+    """Install a fake 'surrealdb.memory' exposing a recording Memory class.
+
+    The client is imported as ``from surrealdb.memory import Memory``, so the
+    stub has to be a submodule and be registered in ``sys.modules`` under its
+    dotted name - a bare attribute on a fake ``surrealdb`` is not importable.
+    """
     captured = {}
 
-    class Spectron:
+    class Memory:
         def __init__(self, **kwargs):
             captured.update(kwargs)
 
-    module = types.ModuleType("surrealdb")
-    module.Spectron = Spectron
-    monkeypatch.setitem(sys.modules, "surrealdb", module)
+    memory_module = types.ModuleType("surrealdb.memory")
+    memory_module.Memory = Memory
+
+    package = types.ModuleType("surrealdb")
+    package.memory = memory_module
+
+    monkeypatch.setitem(sys.modules, "surrealdb", package)
+    monkeypatch.setitem(sys.modules, "surrealdb.memory", memory_module)
     return captured
 
 

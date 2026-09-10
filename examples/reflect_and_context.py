@@ -1,6 +1,6 @@
 """Consolidate memory with reflect, then read it back as working context.
 
-The agent stores several related facts, runs a reflection pass so Spectron can
+The agent stores several related facts, runs a reflection pass so Agent Memory can
 merge them and infer relationships, and then pulls a working-context block for a
 task. This shows the difference between recall (ranked hits) and context (an
 assembled working set).
@@ -13,11 +13,11 @@ Run:
 
 from strands import Agent
 
-from spectron_strands import spectron_tools
+from agent_memory_strands import agent_memory_tools
 
 
 def main() -> None:
-    agent = Agent(tools=spectron_tools(scope="org/acme/project/atlas"))
+    agent = Agent(tools=agent_memory_tools(scope="org/acme/project/atlas"))
 
     agent("Remember that project Atlas ships on 2026-09-01.")
     agent("Remember that Priya leads project Atlas.")

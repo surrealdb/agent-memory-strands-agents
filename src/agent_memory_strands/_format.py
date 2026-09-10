@@ -1,8 +1,8 @@
-"""Helpers that turn Spectron response objects into plain text for the model.
+"""Helpers that turn Agent Memory response objects into plain text for the model.
 
 Strands wraps a string return value from a tool into a tool result, so every
 tool in this package hands back a readable string. The renderers here are
-deliberately defensive: they accept typed Spectron objects (``.hits``,
+deliberately defensive: they accept typed Agent Memory objects (``.hits``,
 ``.score``, ``.text``) as well as plain dicts, so a small change in the SDK
 response shape does not break the tools.
 """

@@ -1,6 +1,6 @@
 # Examples
 
-These scripts show `spectron-strands-agents` in use with a real Strands agent. They use
+These scripts show `agent-memory-strands-agents` in use with a real Strands agent. They use
 Amazon Bedrock, the default Strands model provider.
 
 ## Setup
@@ -8,15 +8,15 @@ Amazon Bedrock, the default Strands model provider.
 Install the package with the Bedrock extra:
 
 ```bash
-pip install "spectron-strands-agents[bedrock]"
+pip install "agent-memory-strands-agents[bedrock]"
 ```
 
-Point the tools at your Spectron instance:
+Point the tools at your Agent Memory instance:
 
 ```bash
-export SPECTRON_ENDPOINT="https://api.spectron.example"
-export SPECTRON_API_KEY="your-bearer-token"
-export SPECTRON_CONTEXT="acme-prod"
+export AGENT_MEMORY_ENDPOINT="https://api.agent-memory.example"
+export AGENT_MEMORY_API_KEY="your-bearer-token"
+export AGENT_MEMORY_CONTEXT="acme-prod"
 ```
 
 Configure AWS credentials so Bedrock can serve the model (for example with `aws configure`, or by exporting `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`). To use a different provider, swap the model on the `Agent` as described in the [Strands model providers guide](https://strandsagents.com).

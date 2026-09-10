@@ -1,6 +1,6 @@
 """Ingest a document, then answer questions from it.
 
-The agent uploads a short policy document into Spectron and then recalls over it.
+The agent uploads a short policy document into Agent Memory and then recalls over it.
 Uploaded content becomes part of the same memory the agent searches at recall
 time, so no separate retrieval pipeline is needed.
 
@@ -12,7 +12,7 @@ Run:
 
 from strands import Agent
 
-from spectron_strands import spectron_tools
+from agent_memory_strands import agent_memory_tools
 
 POLICY = """
 Expense policy, revision 4.
@@ -23,7 +23,7 @@ Receipts must be submitted within 30 days of travel.
 
 
 def main() -> None:
-    agent = Agent(tools=spectron_tools())
+    agent = Agent(tools=agent_memory_tools())
 
     agent(f"Upload this expense policy into memory so we can query it later:\n{POLICY}")
 
